@@ -1,0 +1,21 @@
+{
+  "name": "survey-chatbot",
+  "version": "1.0.0",
+  "description": "설문 + 챗봇 정적 웹 앱 (GitHub Pages + Google Apps Script + Google Sheets)",
+  "private": true,
+  "scripts": {
+    "login": "clasp login",
+    "create": "clasp create --type sheets --title survey-chatbot --rootDir .",
+    "push": "clasp push",
+    "pull": "clasp pull",
+    "deploy": "clasp deploy --description v1",
+    "redeploy": "clasp deploy",
+    "deployments": "clasp deployments",
+    "open": "clasp open",
+    "open:sheet": "clasp open --addon",
+    "logs": "clasp logs"
+  },
+  "devDependencies": {
+    "@google/clasp": "^2.4.2"
+  }
+}

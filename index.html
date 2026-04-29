@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>AI의 시선과 자기 표현 — 음성·영상 인터뷰</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=IBM+Plex+Sans+KR:wght@300;400;500;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+
+    <header class="masthead">
+      <h1 class="masthead__title">AI의 시선과 자기 표현</h1>
+      <p class="masthead__sub">
+        AI가 본인의 얼굴·표정·배경을 보면서 음성으로 인터뷰합니다.
+        응답은 익명으로 처리되며 음성·영상은 저장되지 않습니다.
+      </p>
+      <div class="progress">
+        <span class="progress__bar" id="progressBar"></span>
+        <span class="progress__label" id="progressLabel">1 / 5 단계</span>
+      </div>
+    </header>
+
+    <!-- ───────── 1단계: 안내 + 시작 ───────── -->
+    <section class="step" id="step-intro" aria-labelledby="introHeading">
+      <h2 class="step__heading" id="introHeading">
+        <span class="step__num">01</span> 시작하기
+      </h2>
+
+      <div class="intro">
+        <p class="intro__lead">
+          이 인터뷰는 약 5–10분 정도 소요되며 다음 순서로 진행됩니다:
+        </p>
+        <ol class="intro__steps">
+          <li>간단한 사전 설문 (4문항)</li>
+          <li>카메라·마이크 권한 허용</li>
+          <li>AI와 음성 인터뷰 (얼굴·배경이 비춰짐)</li>
+          <li>사후 설문 (5문항)</li>
+        </ol>
+        <ul class="intro__notes">
+          <li>스마트폰(가로/세로 모두 가능) 또는 카메라·마이크가 있는 PC에서 진행</li>
+          <li>조용하고 얼굴이 잘 보이는 환경 권장</li>
+          <li>대화 텍스트만 저장되며, 음성·영상은 서버에 저장되지 않음</li>
+        </ul>
+
+        <div class="quota" id="quotaBox" aria-live="polite">
+          <span class="quota__label">오늘 남은 인원</span>
+          <span class="quota__value" id="quotaValue">…</span>
+          <span class="quota__sub" id="quotaSub">불러오는 중</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn btn--primary" id="introNextBtn">
+          시작 — 사전 설문으로
+        </button>
+      </div>
+    </section>
+
+    <!-- ───────── 2단계: 사전 설문 ───────── -->
+    <section class="step hidden" id="step-survey" aria-labelledby="surveyHeading">
+      <h2 class="step__heading" id="surveyHeading">
+        <span class="step__num">02</span> 사전 설문
+      </h2>
+      <form id="surveyForm" class="survey" novalidate>
+        <!-- JS가 동적으로 채움 -->
+      </form>
+      <div class="actions">
+        <button type="button" class="btn btn--primary" id="surveyNextBtn">
+          다음 — 카메라·마이크 준비
+        </button>
+      </div>
+    </section>
+
+    <!-- ───────── 3단계: 라이브 인터뷰 ───────── -->
+    <section class="step hidden" id="step-live" aria-labelledby="liveHeading">
+      <h2 class="step__heading" id="liveHeading">
+        <span class="step__num">03</span> 라이브 인터뷰
+      </h2>
+      <p class="step__lead" id="liveLead">
+        AI가 한국어 음성으로 약 6개 정도의 질문을 던집니다.
+        화면에 본인의 얼굴·배경이 비춰지며 영상은 저장되지 않습니다.
+      </p>
+
+      <div class="live">
+        <div class="live__video-wrap">
+          <video id="liveVideo" class="live__video" autoplay playsinline muted></video>
+          <div class="live__status" id="liveStatus">대기 중</div>
+          <div class="live__mic" id="liveMicLevel" aria-hidden="true"></div>
+        </div>
+
+        <div class="live__transcript" id="liveTranscript" role="log" aria-live="polite">
+          <div class="bubble bubble--bot">
+            <span class="bubble__placeholder">시작하면 여기에 대화가 표시됩니다.</span>
+          </div>
+        </div>
+
+        <p class="live__hint" id="liveHintStart">
+          준비되시면 아래 <strong>인터뷰 시작</strong> 버튼을 눌러 주세요.
+        </p>
+        <p class="live__hint hidden" id="liveHintEnd">
+          AI가 마무리 인사를 마치면 아래 <strong>대화 종료</strong> 버튼을 눌러 주세요.
+        </p>
+
+        <div class="live__controls">
+          <button type="button" class="btn btn--primary" id="liveStartBtn">
+            인터뷰 시작
+          </button>
+          <button type="button" class="btn btn--ghost hidden" id="liveEndBtn">
+            대화 종료
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── 4단계: 사후 설문 ───────── -->
+    <section class="step hidden" id="step-post" aria-labelledby="postHeading">
+      <h2 class="step__heading" id="postHeading">
+        <span class="step__num">04</span> 사후 설문
+      </h2>
+      <p class="step__lead">
+        인터뷰를 마치셨습니다. 인터뷰 직후의 생각을 짧게 여쭙겠습니다.
+      </p>
+      <form id="postSurveyForm" class="survey" novalidate>
+        <!-- JS가 동적으로 채움 -->
+      </form>
+      <div class="actions">
+        <button type="button" class="btn btn--primary" id="postSurveyNextBtn">
+          응답 제출
+        </button>
+      </div>
+    </section>
+
+    <!-- ───────── 5단계: 완료 ───────── -->
+    <section class="step hidden" id="step-done" aria-labelledby="doneHeading">
+      <h2 class="step__heading" id="doneHeading">
+        <span class="step__num">05</span> 완료
+      </h2>
+      <div class="done-card" id="doneCard">
+        <div class="done-card__mark">✓</div>
+        <p class="done-card__text">응답을 전송하는 중입니다…</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <small>
+        응답은 Google Apps Script를 통해 Google Sheets에 저장됩니다.
+        음성·영상은 Gemini Live API와 실시간 처리되며 어디에도 저장되지 않습니다.
+      </small>
+    </footer>
+  </main>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>

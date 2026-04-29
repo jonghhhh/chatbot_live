@@ -1,0 +1,5 @@
+# Apps Script로 푸시하지 않을 파일들
+# (Code.gs와 appsscript.json만 푸시되도록)
+**/**
+!Code.gs
+!appsscript.json
